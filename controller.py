@@ -1,5 +1,10 @@
-import view
+from view import View
+from model import Board
 
 
 def start():
-    view.start_view()
+    new_game = Board()
+    view = View()
+    view.print_board(new_game)
+
+
