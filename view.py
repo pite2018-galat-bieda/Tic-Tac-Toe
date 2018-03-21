@@ -1,6 +1,7 @@
 from abc import ABC
 from abc import abstractmethod
 import os
+import platform
 
 
 class ViewInterface(ABC):
@@ -14,8 +15,12 @@ class View(ViewInterface):
 
     @staticmethod
     def clear_screen():
-        os.system('clear')
-
+        if(platform.system() == 'Linux'):
+            os.system('clear')
+        elif(platform.system() == 'Windows'):
+            os.system('cls')
+        else:
+            print("Can not clear screen")
 
     def print_board(self, board):
         data = board.get_board()
