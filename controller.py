@@ -1,17 +1,5 @@
 from view import View
-
-def take_number_from_user(col_or_row):
-	while True:
-	    try:
-	        number = int(input("Give " + col_or_row + " number from 0 to 2: "))
-	    except ValueError:
-	        print("Sorry, I didn't understand that.")
-	        continue
-	    if(0 <= number <= 2):
-	    	break
-	    else:
-	    	continue
-	return number
+from model import Board
 	
 def start():
     new_game = Board()
@@ -28,5 +16,3 @@ def start():
 	    		print("Draw!")
 	    		return
 
-#must be at the end in order to circular importing work correctly (from controller import take_number_from_user)
-from model import Board

@@ -1,8 +1,21 @@
-from controller import take_number_from_user    
 
 class Board:
     def __init__(self):
         self.board = [[0]*3, [0]*3, [0]*3]
+
+    @staticmethod
+    def take_number_from_user(col_or_row):
+        while True:
+            try:
+                number = int(input("Give " + col_or_row + " number from 0 to 2: "))
+            except ValueError:
+                print("Sorry, I didn't understand that.")
+                continue
+            if(0 <= number <= 2):
+                break
+            else:
+                continue
+        return number
 
     def try_make_move(self, player, row, col):
         if (col < 3) & (row < 3) & (col >= 0) & (row >= 0):
@@ -17,8 +30,8 @@ class Board:
     def make_move(self, player_number):
         print("Player " + str(player_number) + " turn")
         while True:
-            row_number = take_number_from_user("row")
-            column_number = take_number_from_user("column")
+            row_number = self.take_number_from_user("row")
+            column_number = self.take_number_from_user("column")
             if(self.try_make_move(player_number, row_number, column_number)):
                 break
             else:

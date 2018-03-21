@@ -1,7 +1,6 @@
 import unittest
 import model
 
-
 class TestExample(unittest.TestCase):
 
     def test_example(self):
@@ -24,3 +23,6 @@ class TestModel(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+
