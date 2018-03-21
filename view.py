@@ -1,5 +1,6 @@
 from abc import ABC
 from abc import abstractmethod
+import os
 
 
 class ViewInterface(ABC):
@@ -13,7 +14,7 @@ class View(ViewInterface):
 
     @staticmethod
     def clear_screen():
-        pass
+        os.system('clear')
 
 
     def print_board(self, board):
