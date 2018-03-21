@@ -38,6 +38,7 @@ def new_turn(view, board):
 def start():
     new_game = Board()
     view = View()
+    
     view.print_board(new_game)
     while new_turn(view, new_game):
     	pass
