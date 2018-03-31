@@ -10,4 +10,5 @@ script:
 notifications:
   email:
     - robgal519@gmail.com
+    - robgal519@tlen.pl
 
