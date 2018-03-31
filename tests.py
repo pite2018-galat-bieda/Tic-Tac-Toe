@@ -45,8 +45,6 @@ class TestModel(unittest.TestCase):
         self.board_one.try_make_move(1, 2, 1)
         self.assertTrue(self.board_one.check_draw())
 
-    def test_travis(self):
-        self.assertTrue(False)
 
 if __name__ == '__main__':
     unittest.main()
