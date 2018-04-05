@@ -42,7 +42,6 @@ input[1].send(data_string)
 input[2].send(data_string)
 input[1].send(data_string)
 while True:
-    print("jestem w tej glownej petli")
     var += 1
     print(var%2+1)
     s=input[var%2+1]
