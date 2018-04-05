@@ -27,15 +27,14 @@ class Board:
     def get_board(self):
         return self.board
 
-    def make_move(self, player_number):
+    def make_move(self, player_number, row_number, column_number):
         print("Player " + str(player_number) + " turn")
         while True:
-            row_number = self.take_number_from_user("row")
-            column_number = self.take_number_from_user("column")
             if(self.try_make_move(player_number, row_number, column_number)):
-                break
+                return True
             else:
                 print("This field is already occupied")
+                return False
     
     def check_win(self, player):
         return (
