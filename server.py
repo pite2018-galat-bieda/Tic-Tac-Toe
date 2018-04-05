@@ -54,7 +54,7 @@ while True:
         lista = pickle.loads(data)
       
         # try to make move   
-        if new_game.make_move(var%2+1,lista[0],lista[1]):
+        if new_game.make_move(var%2+1,lista[1],lista[0]):
             if(new_game.check_win(var%2+1)):
                 s.send(str.encode("won"))
             elif(new_game.check_draw()):
