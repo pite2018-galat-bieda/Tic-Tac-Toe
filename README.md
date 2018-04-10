@@ -10,7 +10,9 @@ python3 server.py
 python3 client.py
 python3 client.py
 
-# Code review do wersji samej gry, bez serwera i kienta (odpowiednia wersja w release)
+# Code review 
+
+Do wersji samej gry, bez serwera i kienta (odpowiednia wersja w release)
 
 Kod nie posiada dokumentacji, jednak same nazwy klas, funkcji oraz zmiennych są na tyle znaczące, iż dokumentacja nie jest wymagana. Kod napisany w zwięzły, a także zrozumiały sposób. Gra działa bezbłędnie oraz zgodnie z przeznaczeniem. README zawiera instrukcje dotyczące uruchomienia programu.
 
