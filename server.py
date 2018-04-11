@@ -1,71 +1,72 @@
-import select
 import socket
 import pickle
-import random
 from model import Board
 
-host = '127.0.0.1' 
-port = 5005 
-backlog = 5 
-maxsize = 1024 
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind((host,port))
-server.listen(backlog)
-input = [server,]
+class Server:
+    def __init__(self):
+        self.host = '127.0.0.1' 
+        self.port = 5005 
+        self.backlog = 5 
 
-var = 1
-print("Serwer started")
-print("Waiting for players")
+        self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.server.bind((self.host, self.port))
+        self.server.listen(self.backlog)
+        self.clients = []
 
-new_game = Board()
+        self.new_game = Board()
+        self.current_client = 0
 
-for x in range(2):
-    inputready,outputready,exceptready = select.select(input,[],[])
-    print("Waiting for second player")
+        print("Server started")
 
-    for s in inputready: 
-        if s == server: 
-            client, address = server.accept()
-            input.append(client) 
-            print ( 'new client added%s'%str(address))
-            if(var == 2):
-                input[1].send(str.encode("oponent found"))
-                input[2].send(str.encode("oponent found"))
-            var += 1
+    def next_client(self):
+        self.current_client += 1
+        self.current_client %= 2
+        return self.current_client
+
+    def wait_for_players(self):
+        for _ in range(2):
+            client, address = self.server.accept()
+            self.clients.append(client)
+            print('new client added%s' % str(address))
+
+    def start_tic_tac_toe(self):
+        self.wait_for_players()
+        data_string = pickle.dumps(self.new_game)
+        self.clients[0].send(data_string)
+        self.clients[1].send(data_string)
+        self.clients[0].send(data_string)
+        while True:
+            print("I am in this loop")
+            s = self.clients[self.current_client]
+            self.next_client()
+
+            while True:
+                print("waiting")
+                # waiting for receive move
+                data = s.recv(10240)
+                print("rec")
+                data_list = pickle.loads(data)
+
+                # try to make move
+                if self.new_game.make_move(self.current_client + 1, data_list[0], data_list[1]):
+                    if self.new_game.check_win(self.current_client + 1):
+                        s.send(str.encode("won"))
+                    elif self.new_game.check_draw():
+                        s.send(str.encode("draw"))
+                    else:
+                        s.send(str.encode("pass"))
+                    data_string = pickle.dumps(self.new_game)
+                    break
+                else:
+                    s.send(str.encode("This field is already occupied"))
+
+            # actualize both boards
+            self.clients[0].send(data_string)
+            self.clients[1].send(data_string)
 
 
-
-# send empty board
-data_string = pickle.dumps(new_game)
-input[1].send(data_string)
-input[2].send(data_string)
-input[1].send(data_string)
-while True:
-    var += 1
-    print(var%2+1)
-    s=input[var%2+1]
-
-  
-    while True:
-        # waiting for receive move
-        data = s.recv(10240)
-        lista = pickle.loads(data)
-      
-        # try to make move   
-        if new_game.make_move(var%2+1,lista[1],lista[0]):
-            if(new_game.check_win(var%2+1)):
-                s.send(str.encode("won"))
-            elif(new_game.check_draw()):
-                s.send(str.encode("draw"))
-            else:
-                s.send(str.encode("pass"))
-            data_string = pickle.dumps(new_game)
-            break
-        else:
-            s.send(str.encode("This field is already occupied"))
-
-    #actualize both boards
-    input[1].send(data_string)
-    input[2].send(data_string)
+if __name__ == '__main__':
+    server = Server()
+    server.start_tic_tac_toe()
 
